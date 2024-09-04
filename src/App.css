@@ -221,7 +221,6 @@ div.todos {
   flex-direction: column;
   gap: 0.5rem;
   width: 100%;
-  max-width: calc(100vw / 2);
   margin-top: 1rem;
   border-radius: 10px;
   padding: 0.5rem;
