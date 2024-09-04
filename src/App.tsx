@@ -15,6 +15,7 @@ import Dialog from "@corvu/dialog";
 import Tooltip from "@corvu/tooltip";
 import { DropdownMenu } from "@kobalte/core/dropdown-menu";
 import { injectSpeedInsights } from "@vercel/speed-insights";
+import { inject } from "@vercel/analytics";
 
 function App() {
   const [todosSignal, setTodosSignal] = createSignal<any>();
@@ -22,6 +23,7 @@ function App() {
   const [tagsInputSignal, setTagsInputSignal] = createSignal<string>("");
   const [inputSignal, setInputSignal] = createSignal<string>("");
   onMount(async () => {
+    inject();
     injectSpeedInsights();
     const todosData = await localforage.getItem("todos");
     const tagsData = await localforage.getItem("tags");
