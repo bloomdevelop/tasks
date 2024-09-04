@@ -124,14 +124,14 @@
 .circled-checkbox {
   appearance: none;
   -webkit-appearance: none;
-  width: auto;
-  height: auto;
+  width: 1rem;
+  height: 1rem;
   background-color: #f2f2f2;
   border-radius: 999px;
   outline: none;
   cursor: pointer;
   position: relative;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease;
 }
 
 .circled-checkbox:checked {
@@ -140,7 +140,7 @@
 
 .circled-checkbox:checked::after {
   content: "\2713";
-  font-size: 14px;
+  font-size: 15px;
   color: white;
   position: absolute;
   top: 50%;
@@ -416,6 +416,15 @@ div.todo-content > p {
 
   button {
     width: fit-content;
+  }
+
+  .circled-checkbox {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .circled-checkbox::after {
+    font-size: 16px;
   }
 
   div.todos {

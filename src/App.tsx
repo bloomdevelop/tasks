@@ -222,6 +222,7 @@ function App() {
                                 return (
                                   <div
                                     style={{
+                                      transition: "all 500ms ease",
                                       display: "flex",
                                       "flex-direction": "row",
                                       "align-items": "center",
