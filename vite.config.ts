@@ -17,7 +17,7 @@ export default defineConfig({
       manifest: {
         name: "Tasks",
         short_name: "Tasks",
-        description: "A extremly simple todo app created using solid-js",
+        description: "A extremely simple todo app created using solid-js",
         categories: ["productivity"],
         display: "standalone",
         icons: [
