@@ -9,12 +9,12 @@ import {
   FaSolidPlus,
   FaSolidTag,
   FaSolidTags,
-  FaSolidTrashCan
+  FaSolidTrashCan,
 } from "solid-icons/fa";
 import Dialog from "@corvu/dialog";
 import Tooltip from "@corvu/tooltip";
 import { DropdownMenu } from "@kobalte/core/dropdown-menu";
-import { injectSpeedInsights } from '@vercel/speed-insights';
+import { injectSpeedInsights } from "@vercel/speed-insights";
 
 function App() {
   const [todosSignal, setTodosSignal] = createSignal<any>();
@@ -107,16 +107,6 @@ function App() {
       updatedTags.splice(index, 1);
       await localforage.setItem("tags", updatedTags);
       setTagsSignal(await localforage.getItem("tags"));
-    }
-  };
-
-  const removeTagFromTodo = async (index: number) => {
-    const todos = (await localforage.getItem("todos")) as [];
-    if (todos) {
-      const updatedTodos = [...todos] as any;
-      updatedTodos[index].tags.splice(index, 1);
-      await localforage.setItem("todos", updatedTodos);
-      setTodosSignal(await localforage.getItem("todos"));
     }
   };
 
@@ -225,7 +215,7 @@ function App() {
                             }}
                           >
                             <For each={todo.tags}>
-                              {(tag, index) => {
+                              {(tag) => {
                                 return (
                                   <div
                                     style={{
@@ -236,9 +226,23 @@ function App() {
                                       gap: ".4rem",
                                       "border-radius": "5px",
                                       padding: ".2rem .5rem",
-                                      cursor: "pointer"
+                                      cursor: "pointer",
                                     }}
-                                    onClick={() => removeTagFromTodo(index())}
+                                    onClick={async () => {
+                                      const updatedTodos = [...todosSignal()];
+                                      const todoIndex = index();
+                                      updatedTodos[todoIndex].tags =
+                                        updatedTodos[todoIndex].tags.filter(
+                                          (t: { name: any }) =>
+                                            t.name !== tag.name
+                                        );
+
+                                      await localforage.setItem(
+                                        "todos",
+                                        updatedTodos
+                                      );
+                                      setTodosSignal(await localforage.getItem("todos"));
+                                    }}
                                     class={`${tag.color}`}
                                   >
                                     <FaSolidTag />
