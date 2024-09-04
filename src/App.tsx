@@ -225,7 +225,6 @@ function App() {
                                       display: "flex",
                                       "flex-direction": "row",
                                       "align-items": "center",
-                                      color: "inherit",
                                       gap: ".4rem",
                                       "border-radius": "5px",
                                       padding: ".2rem .5rem",
