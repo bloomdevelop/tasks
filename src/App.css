@@ -6,30 +6,37 @@
 
 .adw-blue {
   background-color: #3584e4;
+  color: black;
 }
 
 .adw-green {
   background-color: #33d17a;
+  color: black;
 }
 
 .adw-yellow {
   background-color: #f6d32d;
+  color: black;
 }
 
 .adw-orange {
   background-color: #ff7800;
+  color: black;
 }
 
 .adw-red {
   background-color: #e01b24;
+  color: white;
 }
 
 .adw-purple {
   background-color: #9141ac;
+  color: white;
 }
 
 .adw-brown {
   background-color: #986a44;
+  color: white;
 }
 
 .container {
