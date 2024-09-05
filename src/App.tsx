@@ -330,7 +330,7 @@ function App() {
                                       }}
                                     >
                                       <For each={tagsSignal()}>
-                                        {(tag, index) => (
+                                        {(tag, indexTag) => (
                                           <div
                                             style={{
                                               display: "flex",
@@ -359,8 +359,8 @@ function App() {
                                             </DropdownMenu.Item>
                                             <button
                                               onClick={() => {
-                                                console.log(index());
-                                                deleteTag(index());
+                                                console.log(indexTag());
+                                                deleteTag(indexTag());
                                               }}
                                               class="delete small"
                                             >
