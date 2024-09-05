@@ -2,20 +2,20 @@ import { createSignal, For, onMount, Show, Suspense } from "solid-js";
 import "./App.css";
 import localforage from "localforage";
 import Dialog from "@corvu/dialog";
-import Tooltip from "@corvu/tooltip";
 import { DropdownMenu } from "@kobalte/core/dropdown-menu";
 import { injectSpeedInsights } from "@vercel/speed-insights";
 import { inject } from "@vercel/analytics";
 import { ToggleGroup } from "@kobalte/core/toggle-group";
 import ReloadPrompt from "./ReloadPrompt";
 import {
-  TbInfoCircleFilled, TbMenu,
+  TbInfoCircleFilled,
+  TbMenu,
   TbNotes,
   TbPencil,
   TbPlus,
   TbTag,
   TbTags,
-  TbTrash
+  TbTrash,
 } from "solid-icons/tb";
 
 function App() {
@@ -149,23 +149,10 @@ function App() {
           <ReloadPrompt />
           <div class="toolbar-container">
             <Dialog>
-              <Tooltip
-                placement="bottom"
-                floatingOptions={{ offset: 5 }}
-                strategy="absolute"
-              >
-                <Tooltip.Anchor>
-                  <Tooltip.Trigger as={"div"}>
-                    <Dialog.Trigger>
-                      <TbInfoCircleFilled />
-                      Info
-                    </Dialog.Trigger>
-                  </Tooltip.Trigger>
-                </Tooltip.Anchor>
-                <Tooltip.Portal>
-                  <Tooltip.Content>Info</Tooltip.Content>
-                </Tooltip.Portal>
-              </Tooltip>
+              <Dialog.Trigger>
+                <TbInfoCircleFilled />
+                Info
+              </Dialog.Trigger>
               <Dialog.Portal>
                 <Dialog.Overlay />
                 <Dialog.Content>
@@ -270,7 +257,7 @@ function App() {
                                       "user-select": "none",
                                       "-webkit-user-modify": "unset",
                                       "-moz-user-modify": "unset",
-                                      "-moz-user-select": "none"
+                                      "-moz-user-select": "none",
                                     }}
                                     onClick={async () => {
                                       const updatedTodos = [...todosSignal()];
