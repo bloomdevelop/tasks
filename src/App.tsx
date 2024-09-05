@@ -17,6 +17,8 @@ import {
   TbTags,
   TbTrash,
 } from "solid-icons/tb";
+import { TextField } from "@kobalte/core/text-field";
+import createFocusTrap from "solid-focus-trap";
 
 function App() {
   const [todosSignal, setTodosSignal] = createSignal<any>();
@@ -24,6 +26,11 @@ function App() {
   const [tagsInputSignal, setTagsInputSignal] = createSignal<string>("");
   const [inputSignal, setInputSignal] = createSignal<string>("");
   const [tagColorSignal, setTagColorSignal] = createSignal<string>("random");
+  const [contentRef, setContentRef] = createSignal<HTMLElement | null>(null);
+  createFocusTrap({
+    element: contentRef,
+    enabled: true,
+  });
 
   onMount(async () => {
     inject();
@@ -342,6 +349,7 @@ function App() {
                                               onClick={() => {
                                                 addTagToTodo(index(), tag);
                                               }}
+                                              tabIndex={-1}
                                             >
                                               <div
                                                 style={{
@@ -361,6 +369,7 @@ function App() {
                                                 deleteTag(indexTag());
                                               }}
                                               class="delete small"
+                                              tabIndex={-1}
                                             >
                                               <TbTrash />
                                             </button>
@@ -388,19 +397,22 @@ function App() {
                                             gap: ".2rem",
                                           }}
                                         >
-                                          <input
-                                            style={{
-                                              width: "100%",
-                                            }}
-                                            placeholder="Add new tag"
-                                            type="text"
-                                            value={tagsInputSignal()}
-                                            onChange={(e) => {
-                                              setTagsInputSignal(
-                                                e.target.value
-                                              );
-                                            }}
-                                          />
+                                          <TextField>
+                                            <TextField.Input
+                                              ref={setContentRef}
+                                              style={{
+                                                width: "100%",
+                                              }}
+                                              placeholder="Add new tag"
+                                              type="text"
+                                              value={tagsInputSignal()}
+                                              onChange={(e: any) => {
+                                                setTagsInputSignal(
+                                                  e.currentTarget.value
+                                                );
+                                              }}
+                                            />{" "}
+                                          </TextField>{" "}
                                           <button type="submit">
                                             <TbPlus />
                                           </button>
