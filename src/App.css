@@ -65,7 +65,7 @@
   margin-bottom: 1rem;
 }
 
-.toolbar-container > button {
+.toolbar-container > form {
   width: fit-content;
   flex: 1;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
