@@ -16,12 +16,15 @@ import Tooltip from "@corvu/tooltip";
 import { DropdownMenu } from "@kobalte/core/dropdown-menu";
 import { injectSpeedInsights } from "@vercel/speed-insights";
 import { inject } from "@vercel/analytics";
+import { ToggleGroup } from "@kobalte/core/toggle-group";
 
 function App() {
   const [todosSignal, setTodosSignal] = createSignal<any>();
   const [tagsSignal, setTagsSignal] = createSignal<any>();
   const [tagsInputSignal, setTagsInputSignal] = createSignal<string>("");
   const [inputSignal, setInputSignal] = createSignal<string>("");
+  const [tagColorSignal, setTagColorSignal] = createSignal<string>("random");
+
   onMount(async () => {
     inject();
     injectSpeedInsights();
@@ -55,23 +58,58 @@ function App() {
 
   const createTag = async (tag: string) => {
     const tags = (await localforage.getItem("tags")) as [];
-    const rng = Math.floor(Math.random() * 7) + 1;
     let color;
-    if (rng === 1) {
-      color = "adw-blue";
-    } else if (rng === 2) {
-      color = "adw-green";
-    } else if (rng === 3) {
-      color = "adw-red";
-    } else if (rng === 4) {
-      color = "adw-yellow";
-    } else if (rng === 5) {
-      color = "adw-purple";
-    } else if (rng === 6) {
-      color = "adw-brown";
-    } else if (rng === 7) {
-      color = "adw-orange";
+    if (tagColorSignal() === "random") {
+      const rng = Math.floor(Math.random() * 7) + 1;
+      switch (rng) {
+        case 1:
+          color = "adw-blue";
+          break;
+        case 2:
+          color = "adw-red";
+          break;
+        case 3:
+          color = "adw-green";
+          break;
+        case 4:
+          color = "adw-orange";
+          break;
+        case 5:
+          color = "adw-purple";
+          break;
+        case 6:
+          color = "adw-yellow";
+          break;
+        case 7:
+          color = "adw-brown";
+          break;
+      }
+    } else {
+      switch (tagColorSignal()) {
+        case "blue":
+          color = "adw-blue";
+          break;
+        case "red":
+          color = "adw-red";
+          break;
+        case "green":
+          color = "adw-green";
+          break;
+        case "orange":
+          color = "adw-orange";
+          break;
+        case "purple":
+          color = "adw-purple";
+          break;
+        case "yellow":
+          color = "adw-yellow";
+          break;
+        case "brown":
+          color = "adw-brown";
+          break;
+      }
     }
+
     if (tags) {
       await localforage.setItem("tags", [
         ...tags,
@@ -337,28 +375,93 @@ function App() {
                                       <form
                                         style={{
                                           display: "flex",
-                                          "flex-direction": "row",
-                                          gap: ".2rem",
+                                          "flex-direction": "column",
+                                          gap: ".4rem",
                                         }}
                                         onSubmit={async (e) => {
                                           e.preventDefault();
                                           createTag(tagsInputSignal());
                                         }}
                                       >
-                                        <input
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            "flex-direction": "row",
+                                            gap: ".2rem",
+                                          }}
+                                        >
+                                          <input
+                                            style={{
+                                              width: "100%",
+                                            }}
+                                            placeholder="Add new tag"
+                                            type="text"
+                                            value={tagsInputSignal()}
+                                            onChange={(e) => {
+                                              setTagsInputSignal(
+                                                e.target.value
+                                              );
+                                            }}
+                                          />
+                                          <button type="submit">
+                                            <FaSolidPlus />
+                                          </button>
+                                        </div>
+                                        <ToggleGroup
+                                          defaultValue="random"
+                                          value={tagColorSignal()}
+                                          onChange={(val) =>
+                                            setTagColorSignal(val)
+                                          }
                                           style={{
                                             width: "100%",
+                                            display: "flex",
+                                            "flex-direction": "row",
+                                            "justify-content": "space-around",
+                                            "align-items": "center",
                                           }}
-                                          placeholder="Add new tag"
-                                          type="text"
-                                          value={tagsInputSignal()}
-                                          onChange={(e) => {
-                                            setTagsInputSignal(e.target.value);
-                                          }}
-                                        />
-                                        <button type="submit">
-                                          <FaSolidPlus />
-                                        </button>
+                                        >
+                                          <ToggleGroup.Item
+                                            value="random"
+                                            class="random togglebutton"
+                                            title="Random"
+                                          />
+                                          <ToggleGroup.Item
+                                            value="blue"
+                                            title="Blue"
+                                            class={"adw-blue togglebutton"}
+                                          />
+                                          <ToggleGroup.Item
+                                            value="red"
+                                            title="Red"
+                                            class={"adw-red togglebutton"}
+                                          />
+                                          <ToggleGroup.Item
+                                            value="green"
+                                            title="Green"
+                                            class={"adw-green togglebutton"}
+                                          />
+                                          <ToggleGroup.Item
+                                            value="orange"
+                                            title="Orange"
+                                            class={"adw-orange togglebutton"}
+                                          />
+                                          <ToggleGroup.Item
+                                            value="purple"
+                                            title="Purple"
+                                            class={"adw-purple togglebutton"}
+                                          />
+                                          <ToggleGroup.Item
+                                            value="yellow"
+                                            title="Yellow"
+                                            class={"adw-yellow togglebutton"}
+                                          />
+                                          <ToggleGroup.Item
+                                            value="brown"
+                                            title="Brown"
+                                            class={"adw-brown togglebutton"}
+                                          />
+                                        </ToggleGroup>
                                       </form>
                                     </div>
                                   </DropdownMenu.SubContent>

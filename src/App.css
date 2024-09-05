@@ -64,8 +64,8 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.toolbar > form > *{
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); 
+.toolbar > form > * {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 [data-corvu-dialog-overlay] {
@@ -330,6 +330,56 @@ div.todo-content > p {
 
 .dropdown-menu__separator {
   border: 1px solid #eeeeee;
+}
+
+.togglebutton {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px !important;
+  cursor: pointer;
+  padding: 0.4rem;
+}
+
+.togglebutton.random {
+  background: linear-gradient(
+      217deg,
+      rgb(224 27 36 / 80%),
+      rgb(255 0 0 / 0%) 70.71%
+    ),
+    linear-gradient(127deg, rgb(51 209 122/ 80%), rgb(0 255 0 / 0%) 70.71%),
+    linear-gradient(336deg, rgb(53 132 228 / 80%), rgb(0 0 255 / 0%) 70.71%);
+}
+
+.togglebutton.adw-blue:hover {
+  background-color: #3584e4;
+}
+
+.togglebutton.adw-red:hover {
+  background-color: #e01b24;
+}
+
+.togglebutton.adw-green:hover {
+  background-color: #33d17a;
+}
+
+.togglebutton.adw-orange:hover {
+  background-color: #ff7800;
+}
+
+.togglebutton.adw-purple:hover {
+  background-color: #9141ac;
+}
+
+.togglebutton.adw-yellow:hover {
+  background-color: #f6d32d;
+}
+
+.togglebutton.adw-brown:hover {
+  background-color: #986a44;
+}
+
+.togglebutton[data-pressed]::after {
+  content: "\2713";
 }
 
 @media (prefers-color-scheme: dark) {
