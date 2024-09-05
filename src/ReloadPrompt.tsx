@@ -1,7 +1,8 @@
-import type { Component } from 'solid-js'
-import { Show } from 'solid-js'
-import { useRegisterSW } from 'virtual:pwa-register/solid'
-import styles from './ReloadPrompt.module.css'
+import type { Component } from "solid-js";
+import { Show } from "solid-js";
+import { useRegisterSW } from "virtual:pwa-register/solid";
+import "./ReloadPrompt.css";
+import { FaSolidRotate, FaSolidXmark } from "solid-icons/fa";
 
 const ReloadPrompt: Component = () => {
   const {
@@ -11,38 +12,45 @@ const ReloadPrompt: Component = () => {
   } = useRegisterSW({
     onRegistered(r) {
       // eslint-disable-next-line prefer-template
-      console.log('SW Registered: ' + r)
+      console.log("SW Registered: " + r);
     },
     onRegisterError(error) {
-      console.log('SW registration error', error)
+      console.log("SW registration error", error);
     },
-  })
+  });
 
   const close = () => {
-    setOfflineReady(false)
-    setNeedRefresh(false)
-  }
+    setOfflineReady(false);
+    setNeedRefresh(false);
+  };
 
   return (
-    <div class={styles.Container}>
-      <Show when={offlineReady() || needRefresh()}>
-        <div class={styles.Toast}>
-          <div class={styles.Message}>
-            <Show
-              fallback={<span>New content available, click on reload button to update.</span>}
-              when={offlineReady()}
-            >
-              <span>App ready to work offline</span>
-            </Show>
-          </div>
-          <Show when={needRefresh()}>
-            <button class={styles.ToastButton} onClick={() => updateServiceWorker(true)}>Reload</button>
-          </Show>
-          <button class={styles.ToastButton} onClick={() => close()}>Close</button>
-        </div>
-      </Show>
-    </div>
-  )
-}
+    <Show when={offlineReady() || needRefresh()}>
+      <div class="banner">
+        <Show
+          fallback={
+            <>
+              <span>
+                A new update is available.
+              </span>
+              <button
+                disabled={!needRefresh()}
+                onClick={() => updateServiceWorker(true)}
+              >
+                <FaSolidRotate />
+                Reload
+              </button>
+              <button onClick={() => close()}><FaSolidXmark/> Close</button>
+            </>
+          }
+          when={offlineReady()}
+        >
+          <span>App ready to work offline</span>
+          <button onClick={() => close()}><FaSolidXmark/> Close</button>
+        </Show>
+      </div>
+    </Show>
+  );
+};
 
-export default ReloadPrompt
+export default ReloadPrompt;

@@ -52,19 +52,26 @@
 .toolbar {
   position: sticky;
   top: 16px;
+  max-width: calc(100% - 2rem);
+}
+
+.toolbar-container {
+  width: 100%;
   display: flex;
   flex-direction: row;
   gap: 0.3rem;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
 }
 
-.toolbar > button {
+.toolbar-container > button {
+  width: fit-content;
+  flex: 1;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.toolbar > form > * {
+.toolbar-container > form > * {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -199,6 +206,11 @@ button {
   padding: 0.5rem;
   border-radius: 4px;
   background-color: rgb(215, 215, 215);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 button.small {

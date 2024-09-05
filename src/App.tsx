@@ -17,6 +17,7 @@ import { DropdownMenu } from "@kobalte/core/dropdown-menu";
 import { injectSpeedInsights } from "@vercel/speed-insights";
 import { inject } from "@vercel/analytics";
 import { ToggleGroup } from "@kobalte/core/toggle-group";
+import ReloadPrompt from "./ReloadPrompt";
 
 function App() {
   const [todosSignal, setTodosSignal] = createSignal<any>();
@@ -146,56 +147,62 @@ function App() {
     <>
       <div class="container">
         <div class="toolbar">
-          <Dialog>
-            <Tooltip
-              placement="bottom"
-              floatingOptions={{ offset: 5 }}
-              strategy="absolute"
+          <ReloadPrompt />
+          <div class="toolbar-container">
+            <Dialog>
+              <Tooltip
+                placement="bottom"
+                floatingOptions={{ offset: 5 }}
+                strategy="absolute"
+              >
+                <Tooltip.Anchor>
+                  <Tooltip.Trigger as={"div"}>
+                    <Dialog.Trigger>
+                      <FaSolidInfo />
+                      Info
+                    </Dialog.Trigger>
+                  </Tooltip.Trigger>
+                </Tooltip.Anchor>
+                <Tooltip.Portal>
+                  <Tooltip.Content>Info</Tooltip.Content>
+                </Tooltip.Portal>
+              </Tooltip>
+              <Dialog.Portal>
+                <Dialog.Overlay />
+                <Dialog.Content>
+                  <div class="d-grid">
+                    <img src={"/appIcon.svg"} alt="App Icon" />
+                    <h1>Tasks</h1>
+                    <p>Developed by Bloom Perez</p>
+                    <p>
+                      Made with <code>corvu</code>, <code>kobalte</code>,{" "}
+                      <code>solid-js</code>, <code>localforage</code> and{" "}
+                      <code>solid-icons</code>
+                    </p>
+                  </div>
+                </Dialog.Content>
+              </Dialog.Portal>
+            </Dialog>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (inputSignal().length === 0) return;
+                createTodo();
+              }}
             >
-              <Tooltip.Anchor>
-                <Tooltip.Trigger as={"div"}>
-                  <Dialog.Trigger>
-                    <FaSolidInfo />
-                  </Dialog.Trigger>
-                </Tooltip.Trigger>
-              </Tooltip.Anchor>
-              <Tooltip.Portal>
-                <Tooltip.Content>Info</Tooltip.Content>
-              </Tooltip.Portal>
-            </Tooltip>
-            <Dialog.Portal>
-              <Dialog.Overlay />
-              <Dialog.Content>
-                <div class="d-grid">
-                  <img src={"/appIcon.svg"} alt="App Icon" />
-                  <h1>Tasks</h1>
-                  <p>Developed by Bloom Perez</p>
-                  <p>
-                    Made with <code>corvu</code>, <code>kobalte</code>, <code>solid-js</code>,{" "}
-                    <code>localforage</code> and <code>solid-icons</code>
-                  </p>
-                </div>
-              </Dialog.Content>
-            </Dialog.Portal>
-          </Dialog>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (inputSignal().length === 0) return;
-              createTodo();
-            }}
-          >
-            <input
-              value={inputSignal()}
-              onChange={(e) => setInputSignal(e.currentTarget.value)}
-              type="text"
-              placeholder="Add a task"
-              class="input"
-            />
-            <button type="submit">
-              <FaSolidPlus /> Create
-            </button>
-          </form>
+              <input
+                value={inputSignal()}
+                onChange={(e) => setInputSignal(e.currentTarget.value)}
+                type="text"
+                style={{ "flex-grow": 1}}
+                placeholder="Add a task"
+                class="input"
+              />
+              <button type="submit">
+                <FaSolidPlus /> Create
+              </button>
+            </form>
+          </div>
         </div>
         <div class="todos">
           <Suspense
