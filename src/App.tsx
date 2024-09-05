@@ -266,6 +266,11 @@ function App() {
                                       "border-radius": "5px",
                                       padding: ".2rem .5rem",
                                       cursor: "pointer",
+                                      "-webkit-user-select": "none",
+                                      "user-select": "none",
+                                      "-webkit-user-modify": "unset",
+                                      "-moz-user-modify": "unset",
+                                      "-moz-user-select": "none"
                                     }}
                                     onClick={async () => {
                                       const updatedTodos = [...todosSignal()];
