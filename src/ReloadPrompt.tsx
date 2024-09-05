@@ -2,7 +2,7 @@ import type { Component } from "solid-js";
 import { Show } from "solid-js";
 import { useRegisterSW } from "virtual:pwa-register/solid";
 import "./ReloadPrompt.css";
-import { FaSolidRotate, FaSolidXmark } from "solid-icons/fa";
+import { TbDownload, TbReload, TbWifiOff, TbX } from "solid-icons/tb";
 
 const ReloadPrompt: Component = () => {
   const {
@@ -25,28 +25,32 @@ const ReloadPrompt: Component = () => {
   };
 
   return (
-    <Show when={offlineReady() || needRefresh()}>
+    <Show when={offlineReady() || needRefresh() || true}>
       <div class="banner">
         <Show
           fallback={
             <>
-              <span>
-                A new update is available.
-              </span>
+              <TbDownload />
+              <span>A new update is available.</span>
               <button
                 disabled={!needRefresh()}
                 onClick={() => updateServiceWorker(true)}
               >
-                <FaSolidRotate />
+                <TbReload />
                 Reload
               </button>
-              <button onClick={() => close()}><FaSolidXmark/> Close</button>
+              <button onClick={() => close()}>
+                <TbX /> Close
+              </button>
             </>
           }
           when={offlineReady()}
         >
+          <TbWifiOff />
           <span>App ready to work offline</span>
-          <button onClick={() => close()}><FaSolidXmark/> Close</button>
+          <button onClick={() => close()}>
+            <TbX /> Close
+          </button>
         </Show>
       </div>
     </Show>

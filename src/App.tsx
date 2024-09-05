@@ -1,16 +1,6 @@
 import { createSignal, For, onMount, Show, Suspense } from "solid-js";
 import "./App.css";
 import localforage from "localforage";
-import {
-  FaSolidEllipsis,
-  FaSolidInfo,
-  FaSolidNoteSticky,
-  FaSolidPen,
-  FaSolidPlus,
-  FaSolidTag,
-  FaSolidTags,
-  FaSolidTrashCan,
-} from "solid-icons/fa";
 import Dialog from "@corvu/dialog";
 import Tooltip from "@corvu/tooltip";
 import { DropdownMenu } from "@kobalte/core/dropdown-menu";
@@ -18,6 +8,15 @@ import { injectSpeedInsights } from "@vercel/speed-insights";
 import { inject } from "@vercel/analytics";
 import { ToggleGroup } from "@kobalte/core/toggle-group";
 import ReloadPrompt from "./ReloadPrompt";
+import {
+  TbInfoCircleFilled, TbMenu,
+  TbNotes,
+  TbPencil,
+  TbPlus,
+  TbTag,
+  TbTags,
+  TbTrash
+} from "solid-icons/tb";
 
 function App() {
   const [todosSignal, setTodosSignal] = createSignal<any>();
@@ -158,7 +157,7 @@ function App() {
                 <Tooltip.Anchor>
                   <Tooltip.Trigger as={"div"}>
                     <Dialog.Trigger>
-                      <FaSolidInfo />
+                      <TbInfoCircleFilled />
                       Info
                     </Dialog.Trigger>
                   </Tooltip.Trigger>
@@ -194,12 +193,12 @@ function App() {
                 value={inputSignal()}
                 onChange={(e) => setInputSignal(e.currentTarget.value)}
                 type="text"
-                style={{ "flex-grow": 1}}
+                style={{ "flex-grow": 1 }}
                 placeholder="Add a task"
                 class="input"
               />
               <button type="submit">
-                <FaSolidPlus /> Create
+                <TbPlus /> Create
               </button>
             </form>
           </div>
@@ -221,7 +220,7 @@ function App() {
                     "align-items": "center",
                   }}
                 >
-                  <FaSolidNoteSticky size={50} />
+                  <TbNotes size={50} />
                   <p>There's no tasks in this moment</p>
                 </div>
               }
@@ -287,7 +286,7 @@ function App() {
                                     }}
                                     class={`${tag.color}`}
                                   >
-                                    <FaSolidTag />
+                                    <TbTag />
                                     <p>{tag.name}</p>
                                   </div>
                                 );
@@ -306,7 +305,7 @@ function App() {
                     >
                       <DropdownMenu gutter={5}>
                         <DropdownMenu.Trigger>
-                          <FaSolidEllipsis />
+                          <TbMenu />
                         </DropdownMenu.Trigger>
                         <DropdownMenu.Portal>
                           <DropdownMenu.Content class="dropdown-menu__content">
@@ -318,14 +317,14 @@ function App() {
                               }}
                             >
                               <DropdownMenu.Item class="dropdown-menu__item">
-                                <FaSolidPen /> Rename
+                                <TbPencil /> Rename
                               </DropdownMenu.Item>
                               <DropdownMenu.Sub gutter={10}>
                                 <DropdownMenu.SubTrigger
                                   as={"div"}
                                   class="dropdown-menu__item"
                                 >
-                                  <FaSolidTags /> Add Tags
+                                  <TbTags /> Add Tags
                                 </DropdownMenu.SubTrigger>
                                 <DropdownMenu.Portal>
                                   <DropdownMenu.SubContent class="dropdown-menu__subcontent">
@@ -371,7 +370,7 @@ function App() {
                                               }}
                                               class="delete small"
                                             >
-                                              <FaSolidTrashCan />
+                                              <TbTrash />
                                             </button>
                                           </div>
                                         )}
@@ -411,7 +410,7 @@ function App() {
                                             }}
                                           />
                                           <button type="submit">
-                                            <FaSolidPlus />
+                                            <TbPlus />
                                           </button>
                                         </div>
                                         <ToggleGroup
@@ -491,7 +490,7 @@ function App() {
                           localforage.setItem("todos", updatedTodos);
                         }}
                       >
-                        <FaSolidTrashCan /> Delete
+                        <TbTrash /> Delete
                       </button>
                     </div>
                   </div>
