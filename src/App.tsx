@@ -171,7 +171,7 @@ function App() {
                   <h1>Tasks</h1>
                   <p>Developed by Bloom Perez</p>
                   <p>
-                    Made with <code>corvu</code>, <code>solid-js</code>,{" "}
+                    Made with <code>corvu</code>, <code>kobalte</code>, <code>solid-js</code>,{" "}
                     <code>localforage</code> and <code>solid-icons</code>
                   </p>
                 </div>
