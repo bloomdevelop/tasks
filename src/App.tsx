@@ -156,7 +156,7 @@ function App() {
           <ReloadPrompt />
           <div class="toolbar-container">
             <Dialog>
-              <Dialog.Trigger>
+              <Dialog.Trigger class="info-btn">
                 <TbInfoCircleFilled />
                 Info
               </Dialog.Trigger>
