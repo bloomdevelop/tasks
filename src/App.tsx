@@ -95,20 +95,12 @@ function App() {
     }
   };
 
-  const removeTag = async (index: number) => {
-    const todos = (await localforage.getItem("todos")) as [];
-    if (todos) {
-      const updatedTodos = [...todos] as any;
-      updatedTodos[index].tags.splice(index, 1);
-      await localforage.setItem("todos", updatedTodos);
-      setTodosSignal(await localforage.getItem("todos"));
-    }
+  const deleteTag = async (tagIndex: number) => {
     const tags = (await localforage.getItem("tags")) as [];
     if (tags) {
-      const updatedTags = [...tags] as any;
-      updatedTags.splice(index, 1);
+      const updatedTags = tags.filter((_, index) => index !== tagIndex);
       await localforage.setItem("tags", updatedTags);
-      setTagsSignal(await localforage.getItem("tags"));
+      setTagsSignal(updatedTags);
     }
   };
 
@@ -244,7 +236,9 @@ function App() {
                                         "todos",
                                         updatedTodos
                                       );
-                                      setTodosSignal(await localforage.getItem("todos"));
+                                      setTodosSignal(
+                                        await localforage.getItem("todos")
+                                      );
                                     }}
                                     class={`${tag.color}`}
                                   >
@@ -298,7 +292,7 @@ function App() {
                                       }}
                                     >
                                       <For each={tagsSignal()}>
-                                        {(tag) => (
+                                        {(tag, index) => (
                                           <div
                                             style={{
                                               display: "flex",
@@ -327,7 +321,8 @@ function App() {
                                             </DropdownMenu.Item>
                                             <button
                                               onClick={() => {
-                                                removeTag(index());
+                                                console.log(index());
+                                                deleteTag(index());
                                               }}
                                               class="delete small"
                                             >
