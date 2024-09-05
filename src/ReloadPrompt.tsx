@@ -25,7 +25,7 @@ const ReloadPrompt: Component = () => {
   };
 
   return (
-    <Show when={offlineReady() || needRefresh() || true}>
+    <Show when={offlineReady() || needRefresh()}>
       <div class="banner">
         <Show
           fallback={
