@@ -273,7 +273,7 @@ function App() {
                               }}
                             >
                               <DropdownMenu.Item class="dropdown-menu__item">
-                                <FaSolidPen /> Remane
+                                <FaSolidPen /> Rename
                               </DropdownMenu.Item>
                               <DropdownMenu.Sub gutter={10}>
                                 <DropdownMenu.SubTrigger
