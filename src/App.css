@@ -176,6 +176,11 @@
   gap: 1rem;
 }
 
+.muted {
+  color: rgb(100, 100, 100);
+  font-size: 13px;
+}
+
 img {
   width: 100%;
   max-width: 200px;

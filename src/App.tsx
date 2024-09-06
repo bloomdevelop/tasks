@@ -8,17 +8,13 @@ import { inject } from "@vercel/analytics";
 import { ToggleGroup } from "@kobalte/core/toggle-group";
 import ReloadPrompt from "./ReloadPrompt";
 import {
-  TbInfoCircleFilled,
-  TbMenu,
-  TbNotes,
-  TbPencil,
-  TbPlus,
-  TbTag,
-  TbTags,
-  TbTrash,
+  TbAlertTriangle,
+  TbInfoCircleFilled, TbNotes, TbPlus,
+  TbTag, TbTags, TbTrash
 } from "solid-icons/tb";
 import { TextField } from "@kobalte/core/text-field";
 import createFocusTrap from "solid-focus-trap";
+import { Temporal } from "temporal-polyfill";
 
 function App() {
   const [todosSignal, setTodosSignal] = createSignal<any>();
@@ -55,6 +51,14 @@ function App() {
         {
           name: inputSignal(),
           completed: false,
+          /* 
+            Polyfill for Temporal to fix Javascript/Typescript's broken Date()
+            See from the Igalia's blog: https://blogs.igalia.com/compilers/2020/06/23/dates-and-times-in-javascript/
+            See from the proposal: https://github.com/tc39/proposal-temporal
+           */
+          createdAt: Temporal.Now.zonedDateTimeISO(
+            Intl.DateTimeFormat().resolvedOptions().timeZone
+          ).toLocaleString(navigator.language),
           tags: [],
         },
       ]);
@@ -237,7 +241,37 @@ function App() {
                         }}
                       />
                       <div class="todo-content">
-                        <h1>{todo.name}</h1>
+                        <div
+                          style={{
+                            display: "flex",
+                            "flex-direction": "column",
+                            gap: ".1rem",
+                          }}
+                        >
+                          <h1>{todo.name}</h1>
+                          <p class="muted">
+                            {todo.createdAt ? (
+                              `Created at: ${todo.createdAt}`
+                            ) : (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  "flex-direction": "row",
+                                  "justify-content": "start",
+                                  gap: ".2rem",
+                                }}
+                              >
+                                <TbAlertTriangle
+                                  style={{ "margin-top": "0.2rem" }}
+                                />
+                                <span>
+                                  Please recreate a task as I'm making a new
+                                  format migration
+                                </span>
+                              </div>
+                            )}
+                          </p>
+                        </div>
                         <Show when={todo.tags.length > 0}>
                           <div
                             style={{
@@ -304,7 +338,7 @@ function App() {
                     >
                       <DropdownMenu gutter={5}>
                         <DropdownMenu.Trigger>
-                          <TbMenu />
+                          <TbTags />
                         </DropdownMenu.Trigger>
                         <DropdownMenu.Portal>
                           <DropdownMenu.Content class="dropdown-menu__content">
@@ -312,171 +346,146 @@ function App() {
                               style={{
                                 display: "flex",
                                 "flex-direction": "column",
-                                gap: ".2rem",
+                                gap: ".3rem",
                               }}
                             >
-                              <DropdownMenu.Item class="dropdown-menu__item">
-                                <TbPencil /> Rename
-                              </DropdownMenu.Item>
-                              <DropdownMenu.Sub gutter={10}>
-                                <DropdownMenu.SubTrigger
-                                  as={"div"}
-                                  class="dropdown-menu__item"
-                                >
-                                  <TbTags /> Add Tags
-                                </DropdownMenu.SubTrigger>
-                                <DropdownMenu.Portal>
-                                  <DropdownMenu.SubContent class="dropdown-menu__subcontent">
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        "flex-direction": "column",
-                                        gap: ".3rem",
+                              <For each={tagsSignal()}>
+                                {(tag, indexTag) => (
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      "flex-direction": "row",
+                                      gap: ".3rem",
+                                    }}
+                                  >
+                                    <DropdownMenu.Item
+                                      style={{ "flex-grow": 1 }}
+                                      class="dropdown-menu__item"
+                                      onClick={() => {
+                                        addTagToTodo(index(), tag);
                                       }}
+                                      tabIndex={-1}
                                     >
-                                      <For each={tagsSignal()}>
-                                        {(tag, indexTag) => (
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              "flex-direction": "row",
-                                              gap: ".3rem",
-                                            }}
-                                          >
-                                            <DropdownMenu.Item
-                                              style={{ "flex-grow": 1 }}
-                                              class="dropdown-menu__item"
-                                              onClick={() => {
-                                                addTagToTodo(index(), tag);
-                                              }}
-                                              tabIndex={-1}
-                                            >
-                                              <div
-                                                style={{
-                                                  width: "15px",
-                                                  height: "15px",
-                                                  "border-radius": "50%",
-                                                  display: "inline-block",
-                                                }}
-                                                class={`${tag.color}`}
-                                              />
-
-                                              {tag.name}
-                                            </DropdownMenu.Item>
-                                            <button
-                                              onClick={() => {
-                                                console.log(indexTag());
-                                                deleteTag(indexTag());
-                                              }}
-                                              class="delete small"
-                                              tabIndex={-1}
-                                            >
-                                              <TbTrash />
-                                            </button>
-                                          </div>
-                                        )}
-                                      </For>
-                                      <Show when={tagsSignal().length > 0}>
-                                        <DropdownMenu.Separator class="dropdown-menu__separator" />
-                                      </Show>
-                                      <form
+                                      <div
                                         style={{
-                                          display: "flex",
-                                          "flex-direction": "column",
-                                          gap: ".4rem",
+                                          width: "15px",
+                                          height: "15px",
+                                          "border-radius": "50%",
+                                          display: "inline-block",
                                         }}
-                                        onSubmit={async (e) => {
-                                          e.preventDefault();
-                                          createTag(tagsInputSignal());
-                                        }}
-                                      >
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            "flex-direction": "row",
-                                            gap: ".2rem",
-                                          }}
-                                        >
-                                          <TextField>
-                                            <TextField.Input
-                                              ref={setContentRef}
-                                              style={{
-                                                width: "100%",
-                                              }}
-                                              placeholder="Add new tag"
-                                              type="text"
-                                              value={tagsInputSignal()}
-                                              onChange={(e: any) => {
-                                                setTagsInputSignal(
-                                                  e.currentTarget.value
-                                                );
-                                              }}
-                                            />{" "}
-                                          </TextField>{" "}
-                                          <button type="submit">
-                                            <TbPlus />
-                                          </button>
-                                        </div>
-                                        <ToggleGroup
-                                          defaultValue="random"
-                                          value={tagColorSignal()}
-                                          onChange={(val) =>
-                                            setTagColorSignal(val)
-                                          }
-                                          style={{
-                                            width: "100%",
-                                            display: "flex",
-                                            "flex-direction": "row",
-                                            "justify-content": "space-around",
-                                            "align-items": "center",
-                                          }}
-                                        >
-                                          <ToggleGroup.Item
-                                            value="random"
-                                            class="random togglebutton"
-                                            title="Random"
-                                          />
-                                          <ToggleGroup.Item
-                                            value="blue"
-                                            title="Blue"
-                                            class={"adw-blue togglebutton"}
-                                          />
-                                          <ToggleGroup.Item
-                                            value="red"
-                                            title="Red"
-                                            class={"adw-red togglebutton"}
-                                          />
-                                          <ToggleGroup.Item
-                                            value="green"
-                                            title="Green"
-                                            class={"adw-green togglebutton"}
-                                          />
-                                          <ToggleGroup.Item
-                                            value="orange"
-                                            title="Orange"
-                                            class={"adw-orange togglebutton"}
-                                          />
-                                          <ToggleGroup.Item
-                                            value="purple"
-                                            title="Purple"
-                                            class={"adw-purple togglebutton"}
-                                          />
-                                          <ToggleGroup.Item
-                                            value="yellow"
-                                            title="Yellow"
-                                            class={"adw-yellow togglebutton"}
-                                          />
-                                          <ToggleGroup.Item
-                                            value="brown"
-                                            title="Brown"
-                                            class={"adw-brown togglebutton"}
-                                          />
-                                        </ToggleGroup>
-                                      </form>
-                                    </div>
-                                  </DropdownMenu.SubContent>
-                                </DropdownMenu.Portal>
-                              </DropdownMenu.Sub>
+                                        class={`${tag.color}`}
+                                      />
+
+                                      {tag.name}
+                                    </DropdownMenu.Item>
+                                    <button
+                                      onClick={() => {
+                                        console.log(indexTag());
+                                        deleteTag(indexTag());
+                                      }}
+                                      class="delete small"
+                                      tabIndex={-1}
+                                    >
+                                      <TbTrash />
+                                    </button>
+                                  </div>
+                                )}
+                              </For>
+                              <Show when={tagsSignal().length > 0}>
+                                <DropdownMenu.Separator class="dropdown-menu__separator" />
+                              </Show>
+                              <form
+                                style={{
+                                  display: "flex",
+                                  "flex-direction": "column",
+                                  gap: ".4rem",
+                                }}
+                                onSubmit={async (e) => {
+                                  e.preventDefault();
+                                  createTag(tagsInputSignal());
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    "flex-direction": "row",
+                                    gap: ".2rem",
+                                  }}
+                                >
+                                  <TextField>
+                                    <TextField.Input
+                                      ref={setContentRef}
+                                      style={{
+                                        width: "100%",
+                                      }}
+                                      placeholder="Add new tag"
+                                      type="text"
+                                      value={tagsInputSignal()}
+                                      onChange={(e: any) => {
+                                        setTagsInputSignal(
+                                          e.currentTarget.value
+                                        );
+                                      }}
+                                    />{" "}
+                                  </TextField>{" "}
+                                  <button type="submit">
+                                    <TbPlus />
+                                  </button>
+                                </div>
+                                <ToggleGroup
+                                  defaultValue="random"
+                                  value={tagColorSignal()}
+                                  onChange={(val) => setTagColorSignal(val)}
+                                  style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    "flex-direction": "row",
+                                    "justify-content": "space-around",
+                                    "align-items": "center",
+                                  }}
+                                >
+                                  <ToggleGroup.Item
+                                    value="random"
+                                    class="random togglebutton"
+                                    title="Random"
+                                  />
+                                  <ToggleGroup.Item
+                                    value="blue"
+                                    title="Blue"
+                                    class={"adw-blue togglebutton"}
+                                  />
+                                  <ToggleGroup.Item
+                                    value="red"
+                                    title="Red"
+                                    class={"adw-red togglebutton"}
+                                  />
+                                  <ToggleGroup.Item
+                                    value="green"
+                                    title="Green"
+                                    class={"adw-green togglebutton"}
+                                  />
+                                  <ToggleGroup.Item
+                                    value="orange"
+                                    title="Orange"
+                                    class={"adw-orange togglebutton"}
+                                  />
+                                  <ToggleGroup.Item
+                                    value="purple"
+                                    title="Purple"
+                                    class={"adw-purple togglebutton"}
+                                  />
+                                  <ToggleGroup.Item
+                                    value="yellow"
+                                    title="Yellow"
+                                    class={"adw-yellow togglebutton"}
+                                  />
+                                  <ToggleGroup.Item
+                                    value="brown"
+                                    title="Brown"
+                                    class={"adw-brown togglebutton"}
+                                  />
+                                </ToggleGroup>
+                              </form>
                             </div>
                           </DropdownMenu.Content>
                         </DropdownMenu.Portal>
