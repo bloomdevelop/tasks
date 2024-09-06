@@ -3,15 +3,30 @@
   width: 100%;
   justify-content: center;
   align-items: center;
-  background-color: #333333;
   gap: .4rem;
   padding: .4rem .5rem;
-  margin-bottom: .2rem;
+  margin-bottom: .4rem;
   border-radius: 4px;
   font-size: 14px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .banner > button {
   font-size: 14px;
+}
+
+@media (prefers-color-scheme: light) {
+  .banner {
+    background-color: #f0f0f0;
+    color: #333333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+
+@media (prefers-color-scheme: dark) {
+  .banner {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+  }
 }
