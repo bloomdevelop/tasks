@@ -19,7 +19,7 @@ import {
 import { TextField } from "@kobalte/core/text-field";
 import createFocusTrap from "solid-focus-trap";
 import { Temporal } from "temporal-polyfill";
-import Titlebar from "./TitleBar";
+import Titlebar from "./Titlebar";
 
 function App() {
   const [todosSignal, setTodosSignal] = createSignal<any>();
