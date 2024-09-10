@@ -18,7 +18,10 @@ export default defineConfig({
         name: "Tasks",
         short_name: "Tasks",
         description: "A extremely simple todo app created using solid-js",
-        categories: ["productivity"],
+        lang: "en",
+        id: "/",
+        display_override: ["window-controls-overlay"],
+        categories: ["productivity", "tasks"],
         display: "standalone",
         icons: [
           {
@@ -37,6 +40,32 @@ export default defineConfig({
             type: "image/png",
           },
         ],
+        screenshots: [
+          {
+            src: "screenshots/main_interface_light_desktop.jpeg",
+            form_factor: "wide",
+            sizes: "1958x1151",
+            type: "image/jpeg"
+          },
+          {
+            src: "screenshots/main_interface_dark_desktop.jpeg",
+            form_factor: "wide",
+            sizes: "1958x1151",
+            type: "image/jpeg"
+          },
+          {
+            src: "screenshots/main_interface_light_mobile.jpeg",
+            form_factor: "narrow",
+            sizes: "512x751",
+            type: "image/jpeg"
+          },
+          {
+            src: "screenshots/main_interface_dark_mobile.jpeg",
+            form_factor: "narrow",
+            sizes: "512x751",
+            type: "image/jpeg"
+          }
+        ]
       },
     }),
   ],
