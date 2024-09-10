@@ -9,12 +9,17 @@ import { ToggleGroup } from "@kobalte/core/toggle-group";
 import ReloadPrompt from "./ReloadPrompt";
 import {
   TbAlertTriangle,
-  TbInfoCircleFilled, TbNotes, TbPlus,
-  TbTag, TbTags, TbTrash
+  TbInfoCircleFilled,
+  TbNotes,
+  TbPlus,
+  TbTag,
+  TbTags,
+  TbTrash,
 } from "solid-icons/tb";
 import { TextField } from "@kobalte/core/text-field";
 import createFocusTrap from "solid-focus-trap";
 import { Temporal } from "temporal-polyfill";
+import Titlebar from "./TitleBar";
 
 function App() {
   const [todosSignal, setTodosSignal] = createSignal<any>();
@@ -155,6 +160,7 @@ function App() {
 
   return (
     <>
+      <Titlebar />
       <div class="container">
         <div class="toolbar">
           <ReloadPrompt />
